@@ -22,5 +22,5 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release --no-restore
     - name: Test Nut.ResxBridge
-      run: dotnet test --no-restore --verbosity normal ./test/Nut.ResxBridge.Test/Nut.ResxBridge.Test.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=../../nut.resxbridge.coverage.xml"
+      run: dotnet test --no-restore --verbosity normal ./test/Nut.ResxBridge.Test/Nut.ResxBridge.Test.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=../../nut.resxbridge.coverage.xml
     
