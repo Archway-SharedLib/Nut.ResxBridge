@@ -9,10 +9,14 @@
 
 using System;
 using System.Resources;
+using System.Runtime.CompilerServices;
+using System.CodeDom.Compiler;
 
 namespace <#= this.Model.NamespaceName #>
 {
-    <#= this.Model.ClassModifer #> static class <#= this.Model.ClassName #>
+    [CompilerGenerated]
+    [GeneratedCode("Nut.ResxBridge", "<#= ThisAssembly.Metadata.ApplicationVersion #>")]
+    <#= this.Model.ClassModifer #> static partial class <#= this.Model.ClassName #>
     {
         private static ResourceManager resourceManager = new ResourceManager(typeof(<#= this.Model.NamespaceName #>.<#= this.Model.ClassName #>));
 

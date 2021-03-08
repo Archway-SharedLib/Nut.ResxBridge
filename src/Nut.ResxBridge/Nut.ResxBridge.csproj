@@ -40,7 +40,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.8.0" PrivateAssets="all" />
-
+    <PackageReference Include="ThisAssembly.Metadata" Version="1.0.5" PrivateAssets="all" />
+    
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -86,4 +87,12 @@
     </None>
   </ItemGroup>
 
+  <Target Name="EmbedMetadaAssemblyAttributes" AfterTargets="MinVer">
+    <ItemGroup>
+      <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+        <_Parameter1>ApplicationVersion</_Parameter1>
+        <_Parameter2>$(MinVerVersion)</_Parameter2>
+      </AssemblyAttribute>
+    </ItemGroup>
+  </Target>
 </Project>
