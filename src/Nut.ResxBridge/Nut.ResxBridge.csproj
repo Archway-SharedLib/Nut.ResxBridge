@@ -35,6 +35,7 @@
     <MinVerDefaultPreReleasePhase>preview</MinVerDefaultPreReleasePhase>
     <PackageIcon>logo_128.png</PackageIcon>
     <RepositoryUrl>https://github.com/Archway-SharedLib/Nut.ResxBridge</RepositoryUrl>
+    <DevelopmentDependency>true</DevelopmentDependency>
   </PropertyGroup>
 
   <ItemGroup>
