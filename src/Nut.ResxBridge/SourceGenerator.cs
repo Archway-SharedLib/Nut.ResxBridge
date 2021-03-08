@@ -51,7 +51,7 @@ namespace Nut.ResxBridge
             {
                 var template = new ResxClassTemplate() { Model = model };
                 var source = template.TransformText();
-                context.AddSource($"{model.NamespaceName}.{model.ClassName}", SourceText.From(source, Encoding.UTF8));
+                context.AddSource($"{model.NamespaceName}.{model.ClassName}.generated.cs", SourceText.From(source, Encoding.UTF8));
             }
         }
 
