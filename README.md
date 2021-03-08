@@ -3,9 +3,11 @@
 Resxファイルから型付けされたクラスを生成します。
 
 Resx source:
+
 ![リソースファイル](./docs/images/resx_file.png)
 
 Generated source:
+
 ```cs
 internal static class Strings
 {
