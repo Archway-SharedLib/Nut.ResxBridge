@@ -16,6 +16,8 @@ jobs:
         dotnet-version: 5.0.x
     - name: Install dependencies
       run: dotnet restore
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
     - name: Package
       run: dotnet pack --configuration Release
     - name: Publish to NuGet
