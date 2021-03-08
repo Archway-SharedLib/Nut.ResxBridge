@@ -49,7 +49,7 @@ namespace Nut.ResxBridge
 
             foreach(var model in models)
             {
-                var template = new TypedResourceClassTemplate() { Model = model };
+                var template = new ResxClassTemplate() { Model = model };
                 var source = template.TransformText();
                 context.AddSource($"{model.NamespaceName}.{model.ClassName}", SourceText.From(source, Encoding.UTF8));
             }

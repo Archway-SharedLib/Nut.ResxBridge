@@ -18,7 +18,7 @@ namespace Nut.ResxBridge
     /// Class to produce the template output
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "16.0.0.0")]
-    public partial class TypedResourceClassTemplate : TypedResourceClassTemplateBase
+    public partial class ResxClassTemplate : ResxClassTemplateBase
     {
         /// <summary>
         /// Create the template output
@@ -31,33 +31,33 @@ namespace Nut.ResxBridge
             this.Write(this.ToStringHelper.ToStringWithCulture(this.Model.ClassModifer));
             this.Write(" static class ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.Model.ClassName));
-            this.Write("\r\n    {\r\n        private static ResourceManager? resourceManager = new ResourceMa" +
-                    "nager(typeof(");
+            this.Write("\r\n    {\r\n        private static ResourceManager resourceManager = new ResourceMan" +
+                    "ager(typeof(");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.Model.NamespaceName));
             this.Write(".");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.Model.ClassName));
             this.Write(@"));
 
-        private static string GetResourceString(string resourceKey, string? defaultString = null)
+        private static string GetResourceString(string resourceKey, string defaultString = null)
         {
-            string? resourceString = null;
+            string resourceString = null;
             try
             {
                 resourceString = resourceManager.GetString(resourceKey);
             }
             catch (MissingManifestResourceException) { }
 
-            if (defaultString is not null && resourceKey.Equals(resourceString))
+            if (defaultString != null && resourceKey.Equals(resourceString))
             {
                 return defaultString;
             }
 
-            return resourceString!; // only null if missing resources
+            return resourceString;
         }
 
-        private static string Format(string resourceFormat, params object?[]? args)
+        private static string Format(string resourceFormat, params object[] args)
         {
-            if (args is not null)
+            if (args != null)
             {
                 return string.Format(resourceFormat, args);
             }
@@ -98,7 +98,7 @@ namespace Nut.ResxBridge
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "16.0.0.0")]
-    public class TypedResourceClassTemplateBase
+    public class ResxClassTemplateBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

@@ -56,9 +56,9 @@
   </ItemGroup>
   
   <ItemGroup>
-    <None Update="TypedResourceClassTemplate.tt">
+    <None Update="ResxClassTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>TypedResourceClassTemplate.cs</LastGenOutput>
+      <LastGenOutput>ResxClassTemplate.cs</LastGenOutput>
     </None>
   </ItemGroup>
 
@@ -67,10 +67,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="TypedResourceClassTemplate.cs">
+    <Compile Update="ResxClassTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>TypedResourceClassTemplate.tt</DependentUpon>
+      <DependentUpon>ResxClassTemplate.tt</DependentUpon>
     </Compile>
   </ItemGroup>
 

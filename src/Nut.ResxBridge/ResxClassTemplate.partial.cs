@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Nut.ResxBridge
 {
-    public partial class TypedResourceClassTemplate
+    public partial class ResxClassTemplate
     {
         public ResxCodeModel? Model { get; set; }
 

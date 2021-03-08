@@ -118,24 +118,24 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Key 3" xml:space="preserve">
-    <value>キー3</value>
+    <value>Key 3</value>
   </data>
   <data name="Key&quot;4" xml:space="preserve">
-    <value>キー4</value>
+    <value>Key 4</value>
   </data>
   <data name="Key.2" xml:space="preserve">
-    <value>キー2</value>
+    <value>Key 2</value>
   </data>
   <data name="Key1" xml:space="preserve">
-    <value>キー1</value>
+    <value>Key 1</value>
   </data>
   <data name="Method1" xml:space="preserve">
-    <value>{0}{1}"{2}メソッド</value>
+    <value>{0}{1}"{2} Method</value>
   </data>
   <data name="Test" xml:space="preserve">
     <value />
   </data>
   <data name="Val1" xml:space="preserve">
-    <value>バリュー"1</value>
+    <value>Value"1</value>
   </data>
 </root>
