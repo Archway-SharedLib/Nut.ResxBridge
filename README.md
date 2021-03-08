@@ -1,5 +1,9 @@
 # Nut.ResxBridge
 
+[![CI](https://github.com/Archway-SharedLib/Nut.ResxBridge/workflows/CI/badge.svg)](https://github.com/Archway-SharedLib/Nut.ResxBridge/actions)
+[![NuGet](https://img.shields.io/nuget/vpre/Nut.ResxBridge.svg)](https://www.nuget.org/packages/Nut.ResxBridge) 
+[![NuGet](https://img.shields.io/nuget/dt/Nut.ResxBridge.svg)](https://www.nuget.org/packages/Nut.ResxBridge)
+
 Resxファイルから型付けされたクラスを生成します。
 
 Resx source:
