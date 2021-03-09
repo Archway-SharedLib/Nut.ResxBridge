@@ -13,7 +13,9 @@ Resx source:
 Generated source:
 
 ```cs
-internal static class Strings
+[CompilerGenerated]
+[GeneratedCode("Nut.ResxBridge", "0.1.1")]
+internal static partial class Strings
 {
     private static ResourceManager resourceManager = new ResourceManager(typeof(ConsoleApp1.Resources.Strings));
 
@@ -54,6 +56,18 @@ internal static class Strings
     public static string Val1 => GetResourceString(@"Val1", @"Value""1");
 
 }
+```
+
+## Publicクラスを生成する
+
+既定ではinternalなクラスを生成します。publicなクラスを生成する場合は、次のようにプロジェクトファイルに設定を行ってください。
+リソースの設定をいったん消したうえで、`ResxBridge_Modifier`を`public`に指定したリソースの設定を追加しています。
+
+```xml
+<ItemGroup>
+    <EmbeddedResource Remove="Resources\PublicStrings.resx" />
+    <EmbeddedResource Include="Resources\PublicStrings.resx" ResxBridge_Modifier="public" />
+</ItemGroup>
 ```
 
 ## 制限事項

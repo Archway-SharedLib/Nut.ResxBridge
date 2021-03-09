@@ -6,7 +6,7 @@
       <!--https://docs.microsoft.com/ja-jp/visualstudio/msbuild/common-msbuild-project-items?view=vs-2019#embeddedresource-->
       <ResX Include="@(EmbeddedResource)"
             Condition="'%(EmbeddedResource.Type)' == 'Resx' And '%(EmbeddedResource.ResxBridge_Generate)' != 'false' And '%(EmbeddedResource.ManifestResourceName)' != ''"/>
-      <AdditionalFiles Include="@(ResX -> '%(FullPath)')" ResxBridge_Generate="true" ResxBridge_Modifier="@(ResX -> '%(ResxBridge_Modifier)')"/>
+      <AdditionalFiles Include="@(ResX -> '%(FullPath)')" ResxBridge_Generate="true" />
     </ItemGroup>
   </Target>
 </Project>
