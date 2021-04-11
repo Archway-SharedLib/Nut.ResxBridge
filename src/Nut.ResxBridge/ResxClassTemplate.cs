@@ -97,7 +97,7 @@ namespace Nut.ResxBridge
  } 
             this.Write("\r\n");
  } 
-            this.Write("\r\n    }\r\n}");
+            this.Write("    }\r\n}");
             return this.GenerationEnvironment.ToString();
         }
     }
