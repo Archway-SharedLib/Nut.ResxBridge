@@ -48,6 +48,9 @@ namespace <#= this.Model.NamespaceName #>
         }
 
 <# foreach(var member in this.Model.Members) { #>
+        /// <summary>
+        /// <#= this.EscXmlStr(Strings.XmlDocCommentSumary(member.Value)) #>
+        /// </summary>
 <# if(member.IsMethod) { #>
         public static string <#= member.MemberName #>(<#=this.ArgsStr(member, "object")#>)
              => Format(GetResourceString(@"<#= this.EscStr(member.Key) #>", @"<#= this.EscStr(member.Value) #>"), 
@@ -55,6 +58,7 @@ namespace <#= this.Model.NamespaceName #>
 <# } else { #>
         public static string <#= member.MemberName #> => GetResourceString(@"<#= this.EscStr(member.Key) #>", @"<#= this.EscStr(member.Value) #>");
 <# } #>
+
 <# } #>
 
     }

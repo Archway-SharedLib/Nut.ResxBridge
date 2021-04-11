@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security;
 using System.Text;
 
 namespace Nut.ResxBridge
@@ -17,5 +18,6 @@ namespace Nut.ResxBridge
         public string ArgsStr(ResxMemberCodeModel member) =>
             string.Join(", ", Enumerable.Range(0, member.ArgumentCount).Select(v => $"_{v}"));
 
+        public string EscXmlStr(string text) => SecurityElement.Escape(text);
     }
 }

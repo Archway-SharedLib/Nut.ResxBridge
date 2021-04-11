@@ -117,25 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Key 3" xml:space="preserve">
-    <value>Key 33</value>
-  </data>
-  <data name="Key&quot;4" xml:space="preserve">
-    <value>Key 4</value>
-  </data>
-  <data name="Key.2" xml:space="preserve">
-    <value>Key 2 &lt;test&gt;Foo&lt;/test&gt;</value>
-  </data>
-  <data name="Key1" xml:space="preserve">
-    <value>Key 1</value>
-  </data>
-  <data name="Method1" xml:space="preserve">
-    <value>{0}{1}"{2} Method</value>
-  </data>
-  <data name="Test" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Val1" xml:space="preserve">
-    <value>Value"1</value>
+  <data name="XmlDocCommentSumary" xml:space="preserve">
+    <value>{0} に類似しているローカライズされた文字列を検索します。</value>
   </data>
 </root>
