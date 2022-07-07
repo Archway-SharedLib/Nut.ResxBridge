@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -10,6 +11,8 @@ namespace Nut.ResxBridge
     public class ResxCodeModel
     {
         private List<ResxMemberCodeModel> members = new List<ResxMemberCodeModel>();
+
+        private static readonly string? version = Assembly.GetExecutingAssembly().GetCustomAttributes<AssemblyMetadataAttribute>().Where(a => a.Key == "ApplicationVersion").Select(a => a.Value).FirstOrDefault();
 
         private ResxCodeModel(string namespaceName, string className, string modifier)
         {
@@ -38,6 +41,9 @@ namespace Nut.ResxBridge
             }
             return instance;
         }
+
+        public string Version => version ?? string.Empty;
+       
     }
 
     public class ResxMemberCodeModel

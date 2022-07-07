@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Nut.ResxBridge": {
+      "commandName": "DebugRoslynComponent",
+      "targetProject": "..\\..\\sample\\ConsoleApp1\\ConsoleApp1.csproj"
+    }
+  }
+}

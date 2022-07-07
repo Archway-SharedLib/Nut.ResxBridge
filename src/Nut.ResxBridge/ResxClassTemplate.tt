@@ -15,7 +15,7 @@ using System.CodeDom.Compiler;
 namespace <#= this.Model.NamespaceName #>
 {
     [CompilerGenerated]
-    [GeneratedCode("Nut.ResxBridge", "<#= ThisAssembly.Metadata.ApplicationVersion #>")]
+    [GeneratedCode("Nut.ResxBridge", "<#= this.Model.Version #>")]
     <#= this.Model.ClassModifer #> static partial class <#= this.Model.ClassName #>
     {
         private static ResourceManager resourceManager = new ResourceManager(typeof(<#= this.Model.NamespaceName #>.<#= this.Model.ClassName #>));
