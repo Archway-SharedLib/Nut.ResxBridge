@@ -4,8 +4,8 @@ using System.Resources;
 
 namespace Nut.ResxBridge {
 
-    internal static class Strings {
-
+    internal static class Strings 
+    {
         private static ResourceManager? resourceMan;
 
         internal static ResourceManager ResourceManager

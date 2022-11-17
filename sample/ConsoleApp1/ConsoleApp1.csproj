@@ -12,8 +12,6 @@
     <EmbeddedResource Remove="Resources\PublicStrings.resx" />
     <EmbeddedResource Include="Resources\PublicStrings.resx" ResxBridge_Modifier="public" />
   </ItemGroup>
-  <ItemGroup>
-  </ItemGroup>
   
   
 

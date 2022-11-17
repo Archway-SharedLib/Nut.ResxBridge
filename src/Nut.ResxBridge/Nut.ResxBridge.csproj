@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <LangVersion>9</LangVersion>
-    <Nullable>enable</Nullable>
+	  <LangVersion>10</LangVersion>
+	  <Nullable>enable</Nullable>
     <NoWarn>$(NoWarn);CS1591</NoWarn>
 
     <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
@@ -14,12 +14,16 @@
     <!-- Do not include the generator as a lib dependency -->
     <OutputType>library</OutputType>
     <IsRoslynComponent>true</IsRoslynComponent>
+
+	<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+	<CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>
+
   </PropertyGroup>
 
   <PropertyGroup>
     <Authors>Archway</Authors>
     <Description>A typed string resource generator.</Description>
-    <Copyright>Copyright 2021 (c) Archway inc. All rights reserved.</Copyright>
+    <Copyright>Copyright 2022 (c) Archway inc. All rights reserved.</Copyright>
     <PackageTags>resx resource generator</PackageTags>
     <PackageLicenseExpression>https://github.com/Archway-SharedLib/Nut.ResxBridge/blob/main/LICENSE</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/Archway-SharedLib/Nut.ResxBridge</PackageProjectUrl>
@@ -41,7 +45,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.2.0" PrivateAssets="all" />
+	<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.3.1" Pack="false" />
+	<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3" PrivateAssets="all" />
     
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
       <PrivateAssets>all</PrivateAssets>
@@ -77,21 +82,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Nut.ResxBridge.props" Pack="true" PackagePath="build" Visible="false" />
-    <None Include="Nut.ResxBridge.targets" Pack="true" PackagePath="build" Visible="false" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="..\..\assets\logo\logo_128.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Strings.resx">
-      <Generator></Generator>
-    </EmbeddedResource>
   </ItemGroup>
 
   <Target Name="EmbedMetadaAssemblyAttributes" AfterTargets="MinVer">
@@ -102,4 +96,5 @@
       </AssemblyAttribute>
     </ItemGroup>
   </Target>
+
 </Project>

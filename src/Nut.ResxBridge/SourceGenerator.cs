@@ -1,64 +1,96 @@
-﻿using System;
-using System.CodeDom.Compiler;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Diagnostics;
+using Microsoft.CodeAnalysis.Text;
+using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Xml.Linq;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.Text;
 
 namespace Nut.ResxBridge
 {
     [Generator]
-    public class SourceGenerator : ISourceGenerator
+    public class SourceGenerator : IIncrementalGenerator
     {
+        private record AdditionalTextModel(string Path, SourceText? Text, string Modifier, string NamespaceName, string TypeName);
+
         private const string ModifierInternal = "internal";
         private const string ModifierPublic = "public";
 
-        public void Execute(GeneratorExecutionContext context)
+
+        public void Initialize(IncrementalGeneratorInitializationContext context)
         {
-#if DEBUG
-            if (!System.Diagnostics.Debugger.IsAttached)
-            {
-                // System.Diagnostics.Debugger.Launch();
-            }
-#endif
+            var targets = context.AdditionalTextsProvider
+                .Combine(context.AnalyzerConfigOptionsProvider)
+                .Where(Filter)
+                .Select(Map)
+                .Where(m => m is not null);
 
-            var models = new List<ResxCodeModel>();
-            foreach (var res in context.AdditionalFiles)
-            {
-                if (!Path.GetExtension(res.Path).Equals(".resx", StringComparison.InvariantCultureIgnoreCase)) continue;
+            context.RegisterSourceOutput(targets, GenerateSource!);
 
-                var opts = context.AnalyzerConfigOptions.GetOptions(res);
-                if (!opts.TryGetValue("build_metadata.AdditionalFiles.ResxBridge_Generate", out var needGenerate)
-                    || !needGenerate.Equals("true", StringComparison.InvariantCultureIgnoreCase)) continue;
-                if (!opts.TryGetValue("build_metadata.AdditionalFiles.ManifestResourceName", out var manifestResourceName)
-                    || string.IsNullOrEmpty(manifestResourceName)) continue;
-                if (!TryGetTypeNameFrom(res.Path, out var typeName)) continue;
+                //.Where(static af => af.Path.EndsWith(".resx", StringComparison.InvariantCultureIgnoreCase));
 
-                opts.TryGetValue("build_metadata.AdditionalFiles.ResxBridge_Modifier", out var modifier);
-                modifier = AdjustModiferString(modifier);
-                var namespaceName = ToNamespace(manifestResourceName);
-
-                var strings = LoadStrings(res.Path);
-
-                models.Add(ResxCodeModel.Create(namespaceName, typeName, modifier, strings));
-            }
-
-            foreach(var model in models)
-            {
-                var template = new ResxClassTemplate() { Model = model };
-                var source = template.TransformText();
-                context.AddSource($"{model.NamespaceName}.{model.ClassName}.g", SourceText.From(source, Encoding.UTF8));
-            }
         }
 
-        private string ToNamespace(string manifestResourceName)
+        private static bool Filter((AdditionalText Left, AnalyzerConfigOptionsProvider Right) v)
+        {
+            var additionalText = v.Left;
+            var optionsProvider = v.Right;
+
+            if (!additionalText.Path.EndsWith(".resx", StringComparison.InvariantCultureIgnoreCase)) return false;
+
+            var atOption = optionsProvider.GetOptions(additionalText);
+            //if (!atOption.TryGetValue("build_metadata.AdditionalFiles.SourceItemType", out var itemType) 
+            //    || itemType != "EmbeddedResource") return false;
+
+            if (!atOption.TryGetValue("build_metadata.AdditionalFiles.ResxBridge_Generate", out var generate) 
+                || !generate.Equals("true", StringComparison.InvariantCultureIgnoreCase)) return false;
+
+            return true;
+        }
+
+        private static AdditionalTextModel? Map((AdditionalText Left, AnalyzerConfigOptionsProvider Right) v, CancellationToken cancellationToken)
+        {
+            var additionalText = v.Left;
+            var optionsProvider = v.Right;
+
+            var atOption = optionsProvider.GetOptions(additionalText);
+            atOption.TryGetValue("build_metadata.AdditionalFiles.ResxBridge_Modifier", out var modifier);
+            modifier = AdjustModiferString(modifier);
+
+            if (!atOption.TryGetValue("build_metadata.AdditionalFiles.ManifestResourceName", out var manifestResourceName) 
+                || string.IsNullOrEmpty(manifestResourceName)) return null;
+
+            var sourceText = additionalText.GetText();
+            if (sourceText is null) return null;
+
+            if (!TryGetTypeNameFrom(additionalText.Path, out var typeName)) return null;
+
+            var namespaceName = ToNamespace(manifestResourceName);
+
+            return new AdditionalTextModel(additionalText.Path, sourceText, modifier, namespaceName, typeName);
+        }
+
+        private static bool TryGetTypeNameFrom(string fullFileName, out string typeName)
+        {
+            // 型名にできないファイル名はエラー
+            var fileName = Path.GetFileNameWithoutExtension(fullFileName);
+            typeName = fileName;
+            return CSharpUtil.IsValidIdentifier(fileName);
+        }
+
+        private static string AdjustModiferString(string? modifier)
+            => modifier is null ? ModifierInternal :
+                (modifier.Equals(ModifierPublic, StringComparison.InvariantCultureIgnoreCase) ? ModifierPublic : ModifierInternal);
+
+        private static string ToNamespace(string manifestResourceName)
             => string.Join(".", SkipLastN(manifestResourceName.Split('.'), 1));
 
-        private IEnumerable<T> SkipLastN<T>(IEnumerable<T> source, int n)
+        private static IEnumerable<T> SkipLastN<T>(IEnumerable<T> source, int n)
         {
             var it = source.GetEnumerator();
             var hasRemainingItems = false;
@@ -75,20 +107,7 @@ namespace Nut.ResxBridge
             } while (hasRemainingItems);
         }
 
-
-        private string AdjustModiferString(string? modifier)
-            => modifier is null ? ModifierInternal :
-                (modifier.Equals(ModifierPublic, StringComparison.InvariantCultureIgnoreCase) ? ModifierPublic : ModifierInternal);
-
-        private bool TryGetTypeNameFrom(string fullFileName, out string typeName)
-        {
-            // 型名にできないファイル名はエラー
-            var fileName = Path.GetFileNameWithoutExtension(fullFileName);
-            typeName = fileName;
-            return CSharpUtil.IsValidIdentifier(fileName);
-        }
-
-        private Dictionary<string, string> LoadStrings(string path)
+        private static Dictionary<string, string> LoadStrings(string path)
         {
             return XDocument.Load(path)
                 .Root.Elements("data")
@@ -114,8 +133,15 @@ namespace Nut.ResxBridge
                 );
         }
 
-        public void Initialize(GeneratorInitializationContext context)
+        static void GenerateSource(SourceProductionContext spc, AdditionalTextModel sourceModel)
         {
+            var strings = LoadStrings(sourceModel.Path);
+
+            var model = ResxCodeModel.Create(sourceModel.NamespaceName, sourceModel.TypeName, sourceModel.Modifier, strings);
+
+            var template = new ResxClassTemplate() { Model = model };
+            var source = template.TransformText();
+            spc.AddSource($"{model.NamespaceName}.{model.ClassName}.g.cs", SourceText.From(source, Encoding.UTF8));
         }
-    }
+    } 
 }
